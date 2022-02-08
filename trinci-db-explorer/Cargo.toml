@@ -1,0 +1,19 @@
+[package]
+name = "trinci-db-explorer"
+version = "0.1.0"
+edition = "2021"
+authors = ["The Trinci Team <trinci@affidaty.io>"]
+description = "TRINCI database explorer"
+keywords = ["trinci", "blockchain", "explorer", "rocksdb", "tui"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# TUI dependencies
+tui = "0.17"
+crossterm = "0.22"
+# RocksDB dependencies
+merkledb = { git = "https://github.com/affidaty-blockchain/merkledb", default-features = false, features = [
+    "rocksdb_snappy",
+    "sodiumoxide-crypto",
+], optional = true }
