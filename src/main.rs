@@ -17,6 +17,9 @@ use tui::{
     },
     Terminal,
 };
+
+mod tabs;
+mod services;
 enum Event<I> {
     Input(I),
     Tick,
@@ -62,9 +65,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut terminal = Terminal::new(backend)?;
     terminal.clear()?;
 
-    let menu_titles = vec!["Home", "TRINCI", "List Accounts", "Assets", "Quit"];
+    let menu_titles = vec!["Home", "TRINCI", "List Accounts", "Assets","Settings", "Quit"];
     let active_menu_item = MenuItem::Home;
-    
     
     loop {
         terminal.draw(|rect| {
@@ -118,10 +120,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             rect.render_widget(tabs, chunks[0]);
             match active_menu_item {
-                MenuItem::Home => rect.render_widget(render_home(), chunks[1]),
+                MenuItem::Home => rect.render_widget(tabs::home::render_home(), chunks[1]),
             }
             rect.render_widget(copyright, chunks[2]);
         })?;
+
         match rx.recv()? {
             Event::Input(event) => match event.code {
                 KeyCode::Char('q') => {
@@ -134,32 +137,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             Event::Tick => {}
         }
     }
-    
     Ok(())
-
 }
 
-fn render_home<'a>() -> Paragraph<'a> {
-    let home = Paragraph::new(vec![
-        Spans::from(vec![Span::raw("")]),
-        Spans::from(vec![Span::raw("Welcome")]),
-        Spans::from(vec![Span::raw("")]),
-        Spans::from(vec![Span::raw("to")]),
-        Spans::from(vec![Span::raw("")]),
-        Spans::from(vec![Span::styled(
-            "TRINCI Database Explorer",
-            Style::default().fg(Color::LightBlue),
-        )]),
-        Spans::from(vec![Span::raw("")]),
-        Spans::from(vec![Span::raw("")]),
-    ])
-    .alignment(Alignment::Center)
-    .block(
-        Block::default()
-            .borders(Borders::ALL)
-            .style(Style::default().fg(Color::White))
-            .title("Home")
-            .border_type(BorderType::Plain),
-    );
-    home
-}
+
