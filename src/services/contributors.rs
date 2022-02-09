@@ -3,7 +3,9 @@ use std::fs::File;
 
 
 pub struct Contributor {
+    #[allow(dead_code)]
     name: String,
+    #[allow(dead_code)]
     url : String,
 }
 

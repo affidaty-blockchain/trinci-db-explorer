@@ -6,9 +6,10 @@ use tui::{
         Block, BorderType, Borders,Paragraph,
     },
 };
+use crate::services;
 
 pub fn render_home<'a>() -> Paragraph<'a> {
-
+    let _contr = services::contributors::get_contributors();
     let home = Paragraph::new(vec![
         Spans::from(vec![Span::raw("")]),
         Spans::from(vec![Span::raw("Welcome")]),
