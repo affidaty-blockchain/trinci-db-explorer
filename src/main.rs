@@ -1,23 +1,19 @@
-use chrono::prelude::*;
 use crossterm::{
     event::{self, Event as CEvent, KeyCode},
-    terminal::{disable_raw_mode, enable_raw_mode},
+    terminal::{disable_raw_mode,enable_raw_mode},
 };
-use rand::{distributions::Alphanumeric, prelude::*};
-use serde::{Deserialize, Serialize};
-use std::fs;
+
 use std::io;
 use std::sync::mpsc;
 use std::thread;
 use std::time::{Duration, Instant};
-use thiserror::Error;
 use tui::{
     backend::CrosstermBackend,
     layout::{Alignment, Constraint, Direction, Layout},
     style::{Color, Modifier, Style},
     text::{Span, Spans},
     widgets::{
-        Block, BorderType, Borders, Cell, List, ListItem, ListState, Paragraph, Row, Table, Tabs,
+        Block, BorderType, Borders,Paragraph,Tabs,
     },
     Terminal,
 };
@@ -125,8 +121,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 MenuItem::Home => rect.render_widget(render_home(), chunks[1]),
             }
             rect.render_widget(copyright, chunks[2]);
-        });
+        })?;
+        match rx.recv()? {
+            Event::Input(event) => match event.code {
+                KeyCode::Char('q') => {
+                    disable_raw_mode()?;
+                    terminal.show_cursor()?;
+                    break;
+                }
+                _ => {}
+            },
+            Event::Tick => {}
+        }
     }
+    
     Ok(())
 
 }
