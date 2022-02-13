@@ -1,21 +1,27 @@
-use std::path::Path;
-use std::fs::File;
-
-
 pub struct Contributor {
     #[allow(dead_code)]
-    name: String,
+    pub name: String,
     #[allow(dead_code)]
-    url : String,
+    pub url : String,
 }
 
+
+
 pub fn get_contributors()-> Vec<Contributor> {
-    let json_file_path = Path::new("./data/contributors.json");
-    let file = File::open(json_file_path);
-    println!("{:?}",file);
-    let first_contrib = Contributor { 
-        name: String::from("Luca"), 
-        url: String::from("Luca"),
-    };       
-    vec![first_contrib]
+
+    vec![
+    Contributor { 
+        name: String::from("Luca Vignali"), 
+        url: String::from("https://github.com/orgs/affidaty-blockchain/people/vignaliaffidaty"),
+    },
+    Contributor { 
+        name: String::from("Stefano Setti"), 
+        url: String::from("https://github.com/orgs/affidaty-blockchain/people/StefanoSetti"),
+    },
+    Contributor { 
+        name: String::from("Aliaksei Vitsiuk"), 
+        url: String::from("https://github.com/orgs/affidaty-blockchain/people/avitsiuk"),
+    },
+    
+    ]
 }
